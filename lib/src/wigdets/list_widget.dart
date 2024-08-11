@@ -37,11 +37,20 @@ class _MainWidgetState extends State<MainWidget> {
               )
               ), 
             alignment: Alignment.center,
-            child: Row(children: [
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text("Аудио $counter"),
-            ElevatedButton(onPressed: () => play_audio(file), child: const Text("play")),
-            ElevatedButton(onPressed: player.pause, child: const Text("pause")),
-            ElevatedButton(onPressed: player.stop, child: const Text("stop"))
+
+            Container(width: 110,),
+
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            IconButton(onPressed: () => play_audio(file),
+            icon: Icon(Icons.play_arrow, color: Colors.white)),
+            
+            IconButton(onPressed: player.pause,
+            icon: Icon(Icons.pause, color: Colors.white)),
+
+            IconButton(onPressed: player.stop,
+            icon: Icon(Icons.stop, color: Colors.white))]),
             ]),
           ));
     });
