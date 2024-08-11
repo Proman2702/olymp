@@ -1,26 +1,25 @@
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:my_app/src/audio_player.dart';
 
-// ignore: must_be_immutable
+
 class MainWidget extends StatefulWidget {
-  MainWidget({super.key});
-  List<Widget> list_of_players = [];
+  const MainWidget({super.key});
+  
 
   @override
   State<MainWidget> createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> {
-
+  List<Widget> list_of_players = [];
   int counter = 0;
   void _add_audio_to_list(PlatformFile file) {
     setState(() {
       counter++;
-      widget.list_of_players.add(SizedBox(height: 20,));
-      widget.list_of_players.add( Container(
+      list_of_players.add(const SizedBox(height: 20,));
+      list_of_players.add( Container(
             height: 80,
             width: 350,
             decoration: const ShapeDecoration(
@@ -30,7 +29,7 @@ class _MainWidgetState extends State<MainWidget> {
               )
               ), 
             alignment: Alignment.center,
-            child: Row(children: [Text("Аудио $counter"), ElevatedButton(onPressed: Player(file: file).start, child: Text("play"))]),
+            child: Row(children: [Text("Аудио $counter"), ElevatedButton(onPressed: Player(file: file).start, child: const Text("play"))]),
           ));
     });
   }
@@ -64,12 +63,12 @@ class _MainWidgetState extends State<MainWidget> {
         child: Container(
           child: Column(
             children:
-              widget.list_of_players
+              list_of_players
             ),
         )
       ),
       floatingActionButton: FloatingActionButton(
-      backgroundColor: Color.fromARGB(255, 161, 29, 201),
+      backgroundColor: const Color.fromARGB(255, 161, 29, 201),
       onPressed: () async {
         var picked = await FilePicker.platform.pickFiles();
         if (picked == null) return;

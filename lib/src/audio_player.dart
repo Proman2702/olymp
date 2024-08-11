@@ -1,6 +1,5 @@
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:file_picker/file_picker.dart';
 
 
 class Player {
