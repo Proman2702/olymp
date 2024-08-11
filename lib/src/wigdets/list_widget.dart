@@ -1,7 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
-import 'package:my_app/src/audio_player.dart';
+
+import 'package:audioplayers/audioplayers.dart';
 
 
 class MainWidget extends StatefulWidget {
@@ -18,6 +19,13 @@ class _MainWidgetState extends State<MainWidget> {
   void _add_audio_to_list(PlatformFile file) {
     setState(() {
       counter++;
+
+      AudioPlayer player = AudioPlayer();
+
+      void play_audio(file) {
+        player.play(DeviceFileSource(file.path));
+      }
+
       list_of_players.add(const SizedBox(height: 20,));
       list_of_players.add( Container(
             height: 80,
@@ -29,7 +37,12 @@ class _MainWidgetState extends State<MainWidget> {
               )
               ), 
             alignment: Alignment.center,
-            child: Row(children: [Text("Аудио $counter"), ElevatedButton(onPressed: Player(file: file).start, child: const Text("play"))]),
+            child: Row(children: [
+            Text("Аудио $counter"),
+            ElevatedButton(onPressed: () => play_audio(file), child: const Text("play")),
+            ElevatedButton(onPressed: player.pause, child: const Text("pause")),
+            ElevatedButton(onPressed: player.stop, child: const Text("stop"))
+            ]),
           ));
     });
   }
