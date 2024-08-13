@@ -1,7 +1,5 @@
 import 'package:file_picker/file_picker.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:audioplayers/audioplayers.dart';
 
 
@@ -38,7 +36,7 @@ class _MainWidgetState extends State<MainWidget> {
               ), 
             alignment: Alignment.center,
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("Аудио $counter"),
+            Text("Аудио $counter", style: TextStyle(fontSize: 10, color: Colors.white),),
 
             Container(width: 110,),
 
