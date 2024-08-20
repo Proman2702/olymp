@@ -1,6 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-//import 'package:my_app/src/audio_player.dart';
+import 'package:my_app/src/audio_player.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -28,8 +28,8 @@ class _MainWidgetState extends State<MainWidget> {
         alignment: Alignment.center,
         child: Row(children: [
           Text("Аудио $counter"),
-          // ElevatedButton(
-          //     onPressed: Player(file: file).start, child: const Text("play"))
+          ElevatedButton(
+              onPressed: Player(file: file).start, child: const Text("play"))
         ]),
       ));
     });

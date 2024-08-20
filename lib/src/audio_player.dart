@@ -1,21 +1,21 @@
+import 'package:audioplayers/audioplayers.dart';
 
-// import 'package:audioplayers/audioplayers.dart';
+class Player {
+  Player({required this.file});
 
+  AudioPlayer audio_player = AudioPlayer();
 
-// class Player {
-//   Player({required this.file});
+  var file;
 
-//   AudioPlayer audio_player = AudioPlayer();
+  void start() {
+    audio_player.play(DeviceFileSource(file.path));
+  }
 
-//   var file;
+  void pause() {
+    audio_player.pause();
+  }
 
-//   void start() {
-//     audio_player.play(DeviceFileSource(file.path));
-//   }
-//   void pause() {
-//     audio_player.pause();
-//   }
-//   void stop() {
-//     audio_player.stop();
-//   }
-// }
+  void stop() {
+    audio_player.stop();
+  }
+}

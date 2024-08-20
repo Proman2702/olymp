@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'src/wigdets/list_widget.dart';
 
-
 void main() => runApp(App());
 
 class App extends StatelessWidget {
@@ -23,6 +22,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return MainWidget();
+    return MainWidget();
   }
 }
