@@ -35,7 +35,7 @@ class _MainWidgetState extends State<MainWidget> {
       ),
       body: Center(
           child: Container(
-        child: Column(children: <Widget>[Text("бурда")]),
+        child: Column(children: <Widget>[Text("анти-бурда")]),
       )),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 161, 29, 201),
