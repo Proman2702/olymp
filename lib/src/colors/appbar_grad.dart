@@ -3,8 +3,6 @@ import 'package:my_app/src/colors/colors.dart';
 
 // ignore: must_be_immutable
 class MainGrad extends LinearGradient {
-  String hash = '0xff';
-
   final List<Color> colors;
 
   MainGrad({required this.colors})
