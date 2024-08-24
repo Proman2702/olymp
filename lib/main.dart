@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'src/wigdets/list_widget.dart';
+import 'src/wigdets/main_widget.dart';
 
 void main() => runApp(App());
 
