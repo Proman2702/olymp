@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:my_app/src/colors/appbar_grad.dart';
+import 'package:my_app/src/colors/gradients/appbar.dart';
+import 'package:my_app/features/tiles_list/tile.dart';
 
 void main() => runApp(App());
 
@@ -17,8 +18,39 @@ class App extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Widget> playTiles = [];
+  int num = -1;
+
+  void removeTile(n) {
+    playTiles.removeAt(n);
+    num--;
+    setState(() {});
+  }
+
+  void addTile() {
+    playTiles.add(Column(
+      children: [
+        ContainerTile(
+            num: num,
+            child: ElevatedButton(
+                onPressed: () {
+                  removeTile(this.num);
+                },
+                child: Text("$num"))),
+        SizedBox(height: 20)
+      ],
+    ));
+    num++;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +61,7 @@ class HomePage extends StatelessWidget {
           shadowColor: Colors.deepPurple,
           leadingWidth: 20,
           flexibleSpace: Container(
-            decoration: BoxDecoration(gradient: MainGrad()),
+            decoration: BoxDecoration(gradient: AppbarGrad()),
           ),
           title: Container(
             padding: const EdgeInsets.all(5),
@@ -50,15 +82,19 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
               iconSize: 35,
             ),
-            Container(width: 10)
+            SizedBox(width: 10)
           ]),
       body: Center(
-          child: Container(
-        child: Column(children: <Widget>[Text("анти-бурда")]),
-      )),
+        child: SingleChildScrollView(
+            child: Column(
+          children: playTiles,
+        )),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 161, 29, 201),
-        onPressed: () {},
+        onPressed: () {
+          addTile();
+        },
         child: const Center(
             child: Text(
           "+",
@@ -82,7 +118,7 @@ class SettingsPage extends StatelessWidget {
           shadowColor: Colors.deepPurple,
           leadingWidth: 50,
           flexibleSpace: Container(
-            decoration: BoxDecoration(gradient: MainGrad()),
+            decoration: BoxDecoration(gradient: AppbarGrad()),
           ),
           leading: IconButton(
             onPressed: () {

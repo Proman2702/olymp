@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_app/src/colors/colors.dart';
 
 // ignore: must_be_immutable
-class MainGrad extends LinearGradient {
-  MainGrad()
+class TileGrad extends LinearGradient {
+  TileGrad()
       : super(
           colors: [
-            Color(CustomColors().getAppbarGrad[0]),
-            Color(CustomColors().getAppbarGrad[1]),
-            Color(CustomColors().getAppbarGrad[2])
+            Color(CustomColors().getTileGrad[0]),
+            Color(CustomColors().getTileGrad[1])
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
