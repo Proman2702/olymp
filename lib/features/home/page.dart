@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:my_app/features/home/tile.dart";
 import "package:my_app/src/colors/gradients/appbar.dart";
+import "package:my_app/src/colors/gradients/tile.dart";
+// import "package:file_picker/file_picker.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,13 +15,52 @@ class _HomePageState extends State<HomePage> {
   int num = 0;
   List<String> playTiles = [];
 
-  void addTile() {
-    setState(() {
-      playTiles.add("Tile $num");
-      num++;
-    });
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("My title"),
+      content: Container(
+          constraints: const BoxConstraints(),
+          decoration: BoxDecoration(gradient: TileGrad())),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
+// добавление вкладки (старое)
+  // void addTile() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //   if (result != null) {
+  //     String? file = result.files.single.path!;
+  //     playTiles.add("Tile $num with path $file");
+  //     num++;
+  //     setState(() {});
+  //   } else {
+  //     // User canceled the picker
+  //   }
+  // }
+
+// разрабатываемое добавление вкладки
+  void addTile(BuildContext context) {
+    showAlertDialog(context);
+  }
+
+// удаление вкладки
   void removeTile(int index) {
     setState(() {
       playTiles.removeAt(index);
@@ -27,6 +68,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+// простроение вкладки
   Widget buildTile(int index) {
     return Stack(
       alignment: Alignment.center,
@@ -36,7 +78,13 @@ class _HomePageState extends State<HomePage> {
             num: index,
             child: Row(
               children: [
-                Text(playTiles[index]),
+                SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                    child: Text(
+                  playTiles[index],
+                )),
                 IconButton(
                     onPressed: () {
                       removeTile(index);
@@ -48,6 +96,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+// построение страницы
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +136,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 161, 29, 201),
         onPressed: () {
-          addTile();
+          addTile(context);
         },
         child: const Center(
             child: Text(
