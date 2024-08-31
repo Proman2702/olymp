@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import "package:my_app/features/home/tile.dart";
+import "package:my_app/features/home/add_dialog.dart";
+import "package:my_app/features/home/build_tile.dart";
 import "package:my_app/src/colors/gradients/appbar.dart";
-import "package:my_app/src/colors/gradients/tile.dart";
 // import "package:file_picker/file_picker.dart";
 
 class HomePage extends StatefulWidget {
@@ -15,86 +15,21 @@ class _HomePageState extends State<HomePage> {
   int num = 0;
   List<String> playTiles = [];
 
-  showAlertDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {},
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("My title"),
-      content: Container(
-          constraints: const BoxConstraints(),
-          decoration: BoxDecoration(gradient: TileGrad())),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-// добавление вкладки (старое)
-  // void addTile() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  //   if (result != null) {
-  //     String? file = result.files.single.path!;
-  //     playTiles.add("Tile $num with path $file");
-  //     num++;
-  //     setState(() {});
-  //   } else {
-  //     // User canceled the picker
-  //   }
-  // }
-
 // разрабатываемое добавление вкладки
-  void addTile(BuildContext context) {
-    showAlertDialog(context);
+  void addTile() {
+    setState(() {
+      num++;
+    });
   }
 
 // удаление вкладки
   void removeTile(int index) {
     setState(() {
-      playTiles.removeAt(index);
       num--;
     });
   }
 
 // простроение вкладки
-  Widget buildTile(int index) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        const SizedBox(height: 110),
-        ContainerTile(
-            num: index,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                    child: Text(
-                  playTiles[index],
-                )),
-                IconButton(
-                    onPressed: () {
-                      removeTile(index);
-                    },
-                    icon: const Icon(Icons.delete))
-              ],
-            )),
-      ],
-    );
-  }
 
 // построение страницы
   @override
@@ -123,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.of(context).pushNamed("/settings");
               },
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
               color: Colors.white,
               iconSize: 35,
             ),
@@ -132,11 +67,16 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
           padding: const EdgeInsets.only(top: 20, bottom: 20),
           itemCount: num,
-          itemBuilder: (context, index) => buildTile(index)),
+          itemBuilder: (context, index) => TileBuilder(
+                index: index,
+                func: removeTile,
+              )),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 161, 29, 201),
         onPressed: () {
-          addTile(context);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AddDialog(func: addTile));
         },
         child: const Center(
             child: Text(
