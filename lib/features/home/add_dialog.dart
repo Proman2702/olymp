@@ -1,8 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'dart:io';
-import 'package:my_app/backend/template_files/tile_info.dart';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/features/home/deny_sheet.dart';
@@ -17,8 +13,7 @@ class AddDialog extends StatefulWidget {
 }
 
 class _AddDialogState extends State<AddDialog> {
-  String? _dialogTitle;
-  File? file;
+  String? fileName;
   int? result = 1;
   String? filePath;
 
@@ -107,7 +102,7 @@ class _AddDialogState extends State<AddDialog> {
                       fontWeight: FontWeight.w700, color: Colors.black87),
                   onSubmitted: (value) {
                     setState(() {
-                      _dialogTitle = value;
+                      fileName = value;
                     });
                   },
                   maxLength: 16,
@@ -157,7 +152,6 @@ class _AddDialogState extends State<AddDialog> {
                     FilePickerResult? result =
                         await FilePicker.platform.pickFiles();
                     if (result != null) {
-                      file = File(result.files.single.path!);
                       filePath = result.files.single.path!;
                       setState(() {});
                     } else {
@@ -191,14 +185,15 @@ class _AddDialogState extends State<AddDialog> {
         Center(
             child: GestureDetector(
           onTap: () {
-            if (file == null || _dialogTitle == null) {
+            if (filePath == null || fileName == null) {
               showModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) => DenySheet());
             } else {
-              TileInfo.file = file;
-              TileInfo.name = _dialogTitle;
-              TileInfo.result = result;
+              //filePath - добавить в хранилище!
+              //fileName - добавить в хранилище!
+              //result - добавить в хранилище!
+
               widget.func();
               Navigator.of(context).pop();
             }

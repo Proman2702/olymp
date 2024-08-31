@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/src/colors/gradients/tile.dart';
-import 'package:my_app/backend/template_files/tile_info.dart';
 
 class TileBuilder extends StatelessWidget {
   final int index;
@@ -24,7 +23,7 @@ class TileBuilder extends StatelessWidget {
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                Flexible(child: Text(TileInfo.name!)),
+                Flexible(child: Text("")),
                 IconButton(
                     onPressed: () {
                       func(index);
