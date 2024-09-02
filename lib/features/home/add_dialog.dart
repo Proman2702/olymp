@@ -154,6 +154,7 @@ class _AddDialogState extends State<AddDialog> {
                         await FilePicker.platform.pickFiles();
                     if (result != null) {
                       filePath = result.files.single.path!;
+                      setState(() {});
                     } else {
                       // User canceled the picker
                     }
