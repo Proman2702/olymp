@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/src/colors/gradients/appbar.dart';
+import 'package:my_app/etc/colors/gradients/appbar.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

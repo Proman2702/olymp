@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/src/colors/colors.dart';
+import 'package:my_app/etc/colors/colors.dart';
 
 // ignore: must_be_immutable
 class TileGrad extends LinearGradient {

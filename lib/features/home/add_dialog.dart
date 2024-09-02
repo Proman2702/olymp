@@ -2,7 +2,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/features/home/deny_sheet.dart';
-import 'package:my_app/src/colors/colors.dart';
+import 'package:my_app/etc/colors/colors.dart';
+import 'package:my_app/repositories/ai_model.dart';
+import 'package:my_app/repositories/data_handler.dart';
+import 'package:my_app/repositories/models/tile_player.dart';
 
 class AddDialog extends StatefulWidget {
   final Function func;
@@ -73,7 +76,6 @@ class _AddDialogState extends State<AddDialog> {
               SizedBox(
                 height: 10,
               ),
-
               // Значок
               Container(
                 height: 45,
@@ -90,7 +92,6 @@ class _AddDialogState extends State<AddDialog> {
                       color: Colors.white,
                     )),
               ),
-
               SizedBox(width: 15),
 
               // Поле для ввода
@@ -153,7 +154,6 @@ class _AddDialogState extends State<AddDialog> {
                         await FilePicker.platform.pickFiles();
                     if (result != null) {
                       filePath = result.files.single.path!;
-                      setState(() {});
                     } else {
                       // User canceled the picker
                     }
@@ -184,15 +184,19 @@ class _AddDialogState extends State<AddDialog> {
         // Кнопка сохранения
         Center(
             child: GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (filePath == null || fileName == null) {
               showModalBottomSheet(
                   context: context,
                   builder: (BuildContext context) => DenySheet());
             } else {
-              //filePath - добавить в хранилище!
-              //fileName - добавить в хранилище!
-              //result - добавить в хранилище!
+              result = await AIModel().parser(filePath!);
+              TilePlayer tile =
+                  TilePlayer(name: fileName!, file: filePath!, result: result!);
+
+              final db = DataHandler().openDB();
+
+              DataHandler().insertTile(tile, db);
 
               widget.func();
               Navigator.of(context).pop();

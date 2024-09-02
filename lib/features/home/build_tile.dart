@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/src/colors/gradients/tile.dart';
+import 'package:my_app/etc/colors/gradients/tile.dart';
 
 class TileBuilder extends StatelessWidget {
   final int index;

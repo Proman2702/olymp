@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:my_app/features/home/add_dialog.dart";
 import "package:my_app/features/home/build_tile.dart";
-import "package:my_app/src/colors/gradients/appbar.dart";
+import "package:my_app/etc/colors/gradients/appbar.dart";
 // import "package:file_picker/file_picker.dart";
 
 class HomePage extends StatefulWidget {
