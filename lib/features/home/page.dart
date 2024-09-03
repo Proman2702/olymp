@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:my_app/features/home/add_dialog.dart";
-import "package:my_app/features/home/build_tile.dart";
+import "package:my_app/features/home/add_menu_widgets/dialog.dart";
+import "package:my_app/features/home/page_widgets/tile.dart";
 import "package:my_app/etc/colors/gradients/appbar.dart";
 import "package:my_app/repositories/data_handler.dart";
 import "package:my_app/repositories/models/tile_player.dart";
@@ -18,12 +18,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
 
     void callTiles() async {
-      tilesList = await DataHandler().getTiles();
+      this.tilesList = await DataHandler().getTiles();
     }
+
     callTiles();
-    super.initState();
+    setState(() {});
   }
 
 // апдейт вкладок
@@ -41,9 +43,8 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: 70,
           shadowColor: Colors.deepPurple,
           leadingWidth: 20,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(gradient: AppbarGrad()),
-          ),
+          flexibleSpace:
+              Container(decoration: BoxDecoration(gradient: AppbarGrad())),
           title: Container(
             padding: const EdgeInsets.all(5),
             child: const Text(
@@ -71,12 +72,11 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) {
             final tile = tilesList[index];
             return TileBuilder(
-                index: index,
-                func: tileUpdate,
-                tile: tile,
-              );
-          }
-        ),
+              index: index,
+              func: tileUpdate,
+              tile: tile,
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 161, 29, 201),
         onPressed: () {

@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/features/home/deny_sheet.dart';
+import 'package:my_app/features/home/add_menu_widgets/error_notificator.dart';
 import 'package:my_app/etc/colors/colors.dart';
 import 'package:my_app/repositories/ai_model.dart';
 import 'package:my_app/repositories/data_handler.dart';
@@ -17,7 +18,7 @@ class AddDialog extends StatefulWidget {
 
 class _AddDialogState extends State<AddDialog> {
   String? fileName;
-  int? result = 1;
+  int? result;
   String? filePath;
 
   @override
@@ -147,7 +148,6 @@ class _AddDialogState extends State<AddDialog> {
               SizedBox(width: 15),
 
               // Кнопка для загрузки
-
               GestureDetector(
                   onTap: () async {
                     FilePickerResult? result =
@@ -192,9 +192,9 @@ class _AddDialogState extends State<AddDialog> {
                   builder: (BuildContext context) => DenySheet());
             } else {
               result = await AIModel().parser(filePath!);
+
               TilePlayer tile =
                   TilePlayer(name: fileName!, file: filePath!, result: result!);
-
 
               DataHandler().insertTile(tile);
 
