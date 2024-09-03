@@ -3,6 +3,7 @@ import "package:my_app/features/home/add_dialog.dart";
 import "package:my_app/features/home/build_tile.dart";
 import "package:my_app/etc/colors/gradients/appbar.dart";
 import "package:my_app/repositories/data_handler.dart";
+import "package:my_app/repositories/models/tile_player.dart";
 // import "package:file_picker/file_picker.dart";
 
 class HomePage extends StatefulWidget {
@@ -13,28 +14,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int num = 0;
-  List<String> playTiles = [];
+  List<TilePlayer> tilesList = [];
 
-// разрабатываемое добавление вкладки
-  void addTile() async {
-    final db = DataHandler().openDB();
+  @override
+  void initState() {
 
-    print(await DataHandler().getTiles(db));
-
-    setState(() {
-      num++;
-    });
+    void callTiles() async {
+      tilesList = await DataHandler().getTiles();
+    }
+    callTiles();
+    super.initState();
   }
 
-// удаление вкладки
-  void removeTile(int index) {
-    setState(() {
-      num--;
-    });
+// апдейт вкладок
+  void tileUpdate() async {
+    tilesList = await DataHandler().getTiles();
+    setState(() {});
   }
-
-// простроение вкладки
 
 // построение страницы
   @override
@@ -71,17 +67,22 @@ class _HomePageState extends State<HomePage> {
           ]),
       body: ListView.builder(
           padding: const EdgeInsets.only(top: 20, bottom: 20),
-          itemCount: num,
-          itemBuilder: (context, index) => TileBuilder(
+          itemCount: tilesList.length,
+          itemBuilder: (context, index) {
+            final tile = tilesList[index];
+            return TileBuilder(
                 index: index,
-                func: removeTile,
-              )),
+                func: tileUpdate,
+                tile: tile,
+              );
+          }
+        ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 161, 29, 201),
         onPressed: () {
           showDialog(
               context: context,
-              builder: (BuildContext context) => AddDialog(func: addTile));
+              builder: (BuildContext context) => AddDialog(func: tileUpdate));
         },
         child: const Center(
             child: Text(

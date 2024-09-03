@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/etc/colors/gradients/tile.dart';
+import 'package:my_app/repositories/data_handler.dart';
+import 'package:my_app/repositories/models/tile_player.dart';
 
 class TileBuilder extends StatelessWidget {
   final int index;
   final Function func;
-  const TileBuilder({super.key, required this.index, required this.func});
+  final TilePlayer tile;
+  const TileBuilder({super.key, required this.index, required this.func, required this.tile});
 
   @override
   Widget build(BuildContext context) {
@@ -13,20 +16,24 @@ class TileBuilder extends StatelessWidget {
       children: [
         const SizedBox(height: 110),
         Container(
-            alignment: Alignment(0.9, 0),
+            alignment: const Alignment(0.9, 0),
             height: 90,
             width: 340,
             decoration: BoxDecoration(
               gradient: TileGrad(),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                Flexible(child: Text("")),
+                Flexible(child: Text(tile.name)),
                 IconButton(
-                    onPressed: () {
-                      func(index);
+                    onPressed: () async {
+
+
+                      await DataHandler().deleteTile(tile.name);
+
+                      func();
                     },
                     icon: const Icon(Icons.delete))
               ],

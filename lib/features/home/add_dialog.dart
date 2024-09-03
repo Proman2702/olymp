@@ -195,9 +195,8 @@ class _AddDialogState extends State<AddDialog> {
               TilePlayer tile =
                   TilePlayer(name: fileName!, file: filePath!, result: result!);
 
-              final db = DataHandler().openDB();
 
-              DataHandler().insertTile(tile, db);
+              DataHandler().insertTile(tile);
 
               widget.func();
               Navigator.of(context).pop();

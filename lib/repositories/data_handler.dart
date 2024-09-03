@@ -15,9 +15,9 @@ class DataHandler {
     );
   }
 
-  Future<void> insertTile(TilePlayer tile, Future<Database> database) async {
+  Future<void> insertTile(TilePlayer tile) async {
     // Get a reference to the database.
-    final db = await database;
+    final db = await openDB();
 
     // Insert the Dog into the correct table. You might also specify the
     // `conflictAlgorithm` to use in case the same dog is inserted twice.
@@ -30,9 +30,9 @@ class DataHandler {
     );
   }
 
-  Future<List<TilePlayer>> getTiles(Future<Database> database) async {
+  Future<List<TilePlayer>> getTiles() async {
     // Get a reference to the database.
-    final db = await database;
+    final db = await openDB();
 
     // Query the table for all the dogs.
     final List<Map<String, Object?>> tileMaps = await db.query('tiles');
@@ -48,9 +48,9 @@ class DataHandler {
     ];
   }
 
-  Future<void> deleteTile(int name, Future<Database> database) async {
+  Future<void> deleteTile(String name) async {
     // Get a reference to the database.
-    final db = await database;
+    final db = await openDB();
 
     // Remove the Dog from the database.
     await db.delete(
