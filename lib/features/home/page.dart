@@ -20,12 +20,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    void callTiles() async {
-      this.tilesList = await DataHandler().getTiles();
-    }
-
-    callTiles();
-    setState(() {});
+    tileUpdate();
   }
 
 // апдейт вкладок
