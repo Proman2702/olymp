@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
           padding: const EdgeInsets.only(top: 20, bottom: 20),
           itemCount: tilesList.length,
+          
           itemBuilder: (context, index) {
             final tile = tilesList[index];
             return TileBuilder(
@@ -80,11 +81,8 @@ class _HomePageState extends State<HomePage> {
               builder: (BuildContext context) => AddDialog(func: tileUpdate));
         },
         child: const Center(
-            child: Text(
-          "+",
-          textScaler: TextScaler.linear(2.4),
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
-        )),
+            child: Icon(Icons.upload, color: Colors.white, size: 30,
+          )),
       ),
     );
   }
