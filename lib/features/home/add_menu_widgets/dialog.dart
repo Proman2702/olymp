@@ -1,4 +1,5 @@
-// ignore_for_file: prefer_const_constructors
+// ignore: unused_import
+import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import 'package:my_app/repositories/data_handler.dart';
 import 'package:my_app/repositories/models/tile_player.dart';
 
 class AddDialog extends StatefulWidget {
-  final Function func;
-  AddDialog({Key? key, required this.func}) : super(key: key);
+  final Function updater;
+  AddDialog({super.key, required this.updater});
 
   @override
   State<AddDialog> createState() => _AddDialogState();
@@ -24,9 +25,9 @@ class _AddDialogState extends State<AddDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.all(25),
+      contentPadding: const EdgeInsets.all(25),
       backgroundColor: Color(CustomColors.dialogBack),
-      insetPadding: EdgeInsets.all(10),
+      insetPadding: const EdgeInsets.all(10),
       shadowColor: Colors.black,
       elevation: 5,
       title: Row(
@@ -39,7 +40,7 @@ class _AddDialogState extends State<AddDialog> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Color(CustomColors.main)),
-            child: Text(
+            child: const Text(
               "Добавить вкладку",
               style: TextStyle(
                   fontWeight: FontWeight.w700,
@@ -47,7 +48,7 @@ class _AddDialogState extends State<AddDialog> {
                   fontSize: 19),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 15,
           ),
           Container(
@@ -61,7 +62,7 @@ class _AddDialogState extends State<AddDialog> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.close,
                   size: 30,
                   color: Colors.white,
@@ -74,7 +75,7 @@ class _AddDialogState extends State<AddDialog> {
         children: [
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               // Значок
@@ -93,16 +94,16 @@ class _AddDialogState extends State<AddDialog> {
                       color: Colors.white,
                     )),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
 
               // Поле для ввода
               SizedBox(
                 width: 190,
                 height: 45,
                 child: TextField(
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.w700, color: Colors.black87),
-                  onSubmitted: (value) {
+                  onChanged: (value) {
                     setState(() {
                       fileName = value;
                     });
@@ -120,15 +121,14 @@ class _AddDialogState extends State<AddDialog> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-
               // Значок
               Container(
                 height: 45,
@@ -145,7 +145,7 @@ class _AddDialogState extends State<AddDialog> {
                       color: Colors.white,
                     )),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
 
               // Кнопка для загрузки
               GestureDetector(
@@ -189,7 +189,13 @@ class _AddDialogState extends State<AddDialog> {
             if (filePath == null || fileName == null) {
               showModalBottomSheet(
                   context: context,
-                  builder: (BuildContext context) => DenySheet());
+                  builder: (BuildContext context) =>
+                      const DenySheet(type: "none"));
+            } else if (filePath!.split(".").last.compareTo("mp3") != 0 &&
+                filePath!.split(".").last.compareTo("wav") != 0) {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) => DenySheet(type: "format"));
             } else {
               result = await AIModel().parser(filePath!);
 
@@ -198,7 +204,7 @@ class _AddDialogState extends State<AddDialog> {
 
               DataHandler().insertTile(tile);
 
-              widget.func();
+              widget.updater();
               Navigator.of(context).pop();
             }
           },
@@ -210,7 +216,7 @@ class _AddDialogState extends State<AddDialog> {
               decoration: BoxDecoration(
                   color: Color(CustomColors.main),
                   borderRadius: BorderRadius.circular(15)),
-              child: Text("Сохранить",
+              child: const Text("Сохранить",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

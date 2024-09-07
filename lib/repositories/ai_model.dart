@@ -1,5 +1,5 @@
 class AIModel {
   Future<int> parser(String input) async {
-    return 0;
+    return 1;
   }
 }

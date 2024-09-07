@@ -2,14 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:my_app/etc/colors/colors.dart';
 
 class DenySheet extends StatelessWidget {
-  const DenySheet({super.key});
+  const DenySheet({super.key, required this.type});
+
+  final String type;
+
+  String handler() {
+    if (type.compareTo("format") == 0) {
+      return 'Формат должен быть .mp3 или .wav';
+    } else if (type.compareTo("none") == 0) {
+      return 'Не все данные заполнены';
+    }
+    return 'Что-то пошло не так';
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 110,
       width: 200,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
       child: Center(
@@ -18,15 +29,15 @@ class DenySheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 5, right: 5),
+              padding: const EdgeInsets.only(left: 5, right: 5),
               alignment: Alignment.center,
-              child: const Text(
-                'Ошибка! Не все данные заполнены!',
+              child: Text(
+                handler(),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w700),
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             SizedBox(
@@ -36,8 +47,8 @@ class DenySheet extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(CustomColors.mainLightX2)),
                   onPressed: () => Navigator.pop(context),
-                  child:
-                      Text("Закрыть", style: TextStyle(color: Colors.white))),
+                  child: const Text("Закрыть",
+                      style: TextStyle(color: Colors.white))),
             )
           ],
         ),

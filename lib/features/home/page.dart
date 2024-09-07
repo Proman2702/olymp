@@ -64,12 +64,11 @@ class _HomePageState extends State<HomePage> {
       body: ListView.builder(
           padding: const EdgeInsets.only(top: 20, bottom: 20),
           itemCount: tilesList.length,
-          
           itemBuilder: (context, index) {
             final tile = tilesList[index];
             return TileBuilder(
               index: index,
-              func: tileUpdate,
+              updater: tileUpdate,
               tile: tile,
             );
           }),
@@ -78,11 +77,15 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           showDialog(
               context: context,
-              builder: (BuildContext context) => AddDialog(func: tileUpdate));
+              builder: (BuildContext context) =>
+                  AddDialog(updater: tileUpdate));
         },
         child: const Center(
-            child: Icon(Icons.upload, color: Colors.white, size: 30,
-          )),
+            child: Icon(
+          Icons.upload,
+          color: Colors.white,
+          size: 30,
+        )),
       ),
     );
   }
