@@ -40,6 +40,9 @@ dependencies:
   csv: ^6.0.0
   sqflite: ^2.2.6
   path: ^1.8.3
+  mime: ^1.0.6
+  http: ^1.2.2
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:

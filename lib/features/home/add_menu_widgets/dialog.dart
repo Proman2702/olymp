@@ -8,6 +8,7 @@ import 'package:my_app/etc/colors/colors.dart';
 import 'package:my_app/repositories/ai_model.dart';
 import 'package:my_app/repositories/data_handler.dart';
 import 'package:my_app/repositories/models/tile_player.dart';
+import 'package:my_app/repositories/upload_to_server.dart';
 
 class AddDialog extends StatefulWidget {
   final Function updater;
@@ -198,6 +199,8 @@ class _AddDialogState extends State<AddDialog> {
                   builder: (BuildContext context) => DenySheet(type: "format"));
             } else {
               result = await AIModel().parser(filePath!);
+              await UploadAudio().uploadAudio(
+                  filePath!, "http://0.tcp.eu.ngrok.io:11217/upload");
 
               TilePlayer tile =
                   TilePlayer(name: fileName!, file: filePath!, result: result!);
