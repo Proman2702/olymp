@@ -11,6 +11,8 @@ class DenySheet extends StatelessWidget {
       return 'Формат должен быть .mp3 или .wav';
     } else if (type.compareTo("none") == 0) {
       return 'Не все данные заполнены';
+    } else if (type.compareTo("response") == 0) {
+      return 'Не удалось подключиться к серверу';
     }
     return 'Что-то пошло не так';
   }

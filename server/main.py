@@ -1,26 +1,27 @@
 from flask import Flask, jsonify, request
 import os
 import catboost 
+import librosa
 import numpy as np
 
 app = Flask(__name__)
 
 
-'''model = catboost.CatBoostClassifier()
-model.load_model('catboost_model.cbm')
+model = catboost.CatBoostClassifier()
+model.load_model('cat2.cbm')
 
 @app.route('/predict', methods=['POST'])
-def predict():
+def predict(path):
     sr=16000
-    y, sr = catboost.librosa.load(file_path, sr=sr)
+    y, sr = librosa.load(path, sr=sr)
     
-    mfccs = catboost.librosa.feature.mfcc(y=y, sr=sr)
+    mfccs = librosa.feature.mfcc(y=y, sr=sr)
     mfccs_mean = np.mean(mfccs.T, axis=0)
 
-    onset_env = catboost.librosa.onset.onset_strength(y=y, sr=sr)
-    tempo, _ = catboost.librosa.beat.beat_track(onset_envelope=onset_env, sr=sr)
+    onset_env = librosa.onset.onset_strength(y=y, sr=sr)
+    tempo, _ = librosa.beat.beat_track(onset_envelope=onset_env, sr=sr)
 
-    rms = catboost.librosa.feature.rms(y=y)
+    rms = librosa.feature.rms(y=y)
     rms_mean = np.mean(rms.T, axis=0)
 
     feature=np.hstack([mfccs_mean, 
@@ -30,7 +31,7 @@ def predict():
     
     prediction = model.predict(feature)
     return jsonify({'prediction': prediction.tolist()})
-'''
+
 
 
 UPLOAD_FOLDER = 'uploads/'
@@ -49,10 +50,13 @@ def upload_audio():
     # Сохранение файла
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
+    print("<server> uploaded")
 
-
+    prediction = predict(file_path)
+    print("<server> predicted")
+    file_path = os.remove(file_path)
     # Здесь можно добавить обработку аудиофайла
-    return 'File uploaded successfully', 200
+    return prediction, 200
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/features/home/add_menu_widgets/error_notificator.dart';
 import 'package:my_app/etc/colors/colors.dart';
-import 'package:my_app/repositories/ai_model.dart';
 import 'package:my_app/repositories/data_handler.dart';
 import 'package:my_app/repositories/models/tile_player.dart';
 import 'package:my_app/repositories/upload_to_server.dart';
@@ -22,6 +21,31 @@ class _AddDialogState extends State<AddDialog> {
   String? fileName;
   int? result;
   String? filePath;
+  String ip = "http://4.tcp.eu.ngrok.io:12793/upload";
+
+  Future<int> get_response(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => SizedBox(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: Center(
+                    child: CircularProgressIndicator(
+                  color: Color(CustomColors.dialogBack),
+                )),
+              ),
+            ));
+    try {
+      final res = await UploadAudio().uploadAudio(filePath!, ip);
+      Navigator.pop(context);
+      return res;
+    } on Exception catch (e) {
+      log("error ${e}");
+      Navigator.pop(context);
+      return 400;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +73,7 @@ class _AddDialogState extends State<AddDialog> {
                   fontSize: 19),
             ),
           ),
-          const SizedBox(
-            width: 15,
-          ),
+          const SizedBox(width: 15),
           Container(
             height: 50,
             width: 50,
@@ -63,23 +85,20 @@ class _AddDialogState extends State<AddDialog> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: const Icon(
-                  Icons.close,
-                  size: 30,
-                  color: Colors.white,
-                )),
+                icon: const Icon(Icons.close, size: 30, color: Colors.white)),
           )
         ],
       ),
+      // Главное тело окна
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Ряд с записью названия
           Row(
             children: [
-              const SizedBox(
-                height: 10,
-              ),
-              // Значок
+              const SizedBox(height: 10),
+
+              // Значок где ввод
               Container(
                 height: 45,
                 width: 45,
@@ -87,17 +106,16 @@ class _AddDialogState extends State<AddDialog> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Color(CustomColors.mainLightX2)),
-                child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.drive_file_rename_outline,
-                      size: 24,
-                      color: Colors.white,
-                    )),
+                child: const Icon(
+                  Icons.drive_file_rename_outline,
+                  size: 24,
+                  color: Colors.white,
+                ),
               ),
+
               const SizedBox(width: 15),
 
-              // Поле для ввода
+              // Поле для ввода названия файла
               SizedBox(
                 width: 190,
                 height: 45,
@@ -122,15 +140,13 @@ class _AddDialogState extends State<AddDialog> {
               )
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
+
+          const SizedBox(height: 20),
+          // Ряд с выбором файла
           Row(
             children: [
-              const SizedBox(
-                height: 10,
-              ),
-              // Значок
+              const SizedBox(height: 10),
+              // Значок выбора файла
               Container(
                 height: 45,
                 width: 45,
@@ -138,55 +154,57 @@ class _AddDialogState extends State<AddDialog> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Color(CustomColors.mainLightX2)),
-                child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.upload,
-                      size: 24,
-                      color: Colors.white,
-                    )),
+                child: const Icon(
+                  Icons.upload,
+                  size: 24,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(width: 15),
 
-              // Кнопка для загрузки
+              // Кнопка для загрузки фалйа
               GestureDetector(
-                  onTap: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles();
-                    if (result != null) {
-                      filePath = result.files.single.path!;
-                      setState(() {});
-                    } else {
-                      // User canceled the picker
-                    }
-                  },
-                  child: Container(
-                      height: 40,
-                      width: 140,
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Colors.black12)),
-                      child: SingleChildScrollView(
-                          child: Text(
-                              filePath == null
-                                  ? "Загрузка файла"
-                                  : filePath!.split("/").last,
-                              style: TextStyle(
-                                color: Colors.black45,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                              )))))
+                onTap: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles();
+                  if (result != null) {
+                    filePath = result.files.single.path!;
+                    setState(() {});
+                  }
+                },
+                child: Container(
+                  height: 40,
+                  width: 140,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.black12)),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      filePath == null
+                          ? "Загрузка файла"
+                          : filePath!.split("/").last,
+                      style: const TextStyle(
+                        color: Colors.black45,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           )
         ],
       ),
+
+      // Кнопка сохранения вкладки
       actions: [
-        // Кнопка сохранения
         Center(
             child: GestureDetector(
           onTap: () async {
+            // Проверка на наличие введенных данных
             if (filePath == null || fileName == null) {
               showModalBottomSheet(
                   context: context,
@@ -198,17 +216,28 @@ class _AddDialogState extends State<AddDialog> {
                   context: context,
                   builder: (BuildContext context) => DenySheet(type: "format"));
             } else {
-              result = await AIModel().parser(filePath!);
-              await UploadAudio().uploadAudio(
-                  filePath!, "http://0.tcp.eu.ngrok.io:11217/upload");
+              // Запрос
+              final response = await get_response(context);
 
-              TilePlayer tile =
-                  TilePlayer(name: fileName!, file: filePath!, result: result!);
+              // Сработал ли запрос
+              // нет
+              if (response == 400) {
+                Navigator.of(context).pop();
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        DenySheet(type: "response"));
+                // да
+              } else {
+                result = response;
+                TilePlayer tile = TilePlayer(
+                    name: fileName!, file: filePath!, result: result!);
 
-              DataHandler().insertTile(tile);
+                DataHandler().insertTile(tile);
 
-              widget.updater();
-              Navigator.of(context).pop();
+                widget.updater();
+                Navigator.of(context).pop();
+              }
             }
           },
           // Само тело виджета
