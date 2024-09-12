@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
 import 'dart:io';
 import "package:my_app/etc/colors/colors.dart";
+//import "package:my_app/etc/colors/gradients/tile.dart";
 import "package:my_app/features/home/add_menu_widgets/dialog.dart";
 import "package:my_app/features/home/page_widgets/tile.dart";
 import "package:my_app/etc/colors/gradients/appbar.dart";
@@ -26,13 +27,13 @@ class _HomePageState extends State<HomePage> {
     tileUpdate();
 
     for (int i = 0; i < tilesList.length; i++) {
-        if (!(File(tilesList[i].file).existsSync())) {
-          tileRemove(tilesList[i].name, i);
-        }
+      if (!(File(tilesList[i].file).existsSync())) {
+        tileRemove(tilesList[i].name, i);
       }
-    
-    setState(() {});
     }
+
+    setState(() {});
+  }
 
   void tileRemove(String name, int index) async {
     await DataHandler().deleteTile(name);
@@ -77,17 +78,50 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(width: 10)
           ]),
-      body: ListView.builder(
-          padding: const EdgeInsets.only(top: 20, bottom: 20),
-          itemCount: tilesList.length,
-          itemBuilder: (context, index) {
-            final tile = tilesList[index];
-            return TileBuilder(
-              index: index,
-              updater: tileUpdate,
-              tile: tile,
-            );
-          }),
+      body: ListView(
+        padding: EdgeInsets.only(left: 22, right: 22, bottom: 22, top: 5),
+        children: [
+          ListView.builder(
+              physics: const ScrollPhysics(),
+              padding: EdgeInsets.only(bottom: 15),
+              shrinkWrap: true,
+              itemCount: tilesList.length,
+              itemBuilder: (context, index) {
+                final tile = tilesList[index];
+                return TileBuilder(
+                  index: index,
+                  updater: tileUpdate,
+                  tile: tile,
+                );
+              }),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      AddDialog(updater: tileUpdate));
+            },
+            child: Container(
+              height: 100,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
+                      offset: Offset(0, 3))
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Icon(
+                Icons.add_circle_outline,
+                size: 40,
+                color: Color(CustomColors.shadow),
+              ),
+            ),
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(CustomColors.bright),
         onPressed: () {

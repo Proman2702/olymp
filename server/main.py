@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 model = catboost.CatBoostClassifier()
-model.load_model('C:\\Users\\Pavel\\Desktop\\app\\my_app\\olymp\\server\\cat2.cbm')
+model.load_model('C:\\Users\\Pavel\\Desktop\\ai\\olymp\\server\\cat2.cbm')
 
 @app.route('/predict', methods=['POST'])
 def predict(path):

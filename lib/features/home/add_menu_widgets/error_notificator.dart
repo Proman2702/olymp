@@ -15,6 +15,8 @@ class DenySheet extends StatelessWidget {
       return 'Не удалось подключиться к серверу';
     } else if (type.compareTo("not_found") == 0) {
       return 'Файл был перемещен или удален';
+    } else if (type.compareTo("repeated") == 0) {
+      return 'Такое имя вкладки уже существует';
     }
     return 'Что-то пошло не так';
   }

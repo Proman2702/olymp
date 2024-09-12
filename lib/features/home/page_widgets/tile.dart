@@ -13,13 +13,14 @@ class TileBuilder extends StatelessWidget {
   final int index;
   final Function updater;
   final TilePlayer tile;
-  const TileBuilder(
+  TileBuilder(
       {super.key,
       required this.index,
       required this.updater,
       required this.tile});
-  
 
+  final List<double> x_align = [-1.2, 1.2];
+  final List<double> y_align = [-1.4, 1.4];
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +29,19 @@ class TileBuilder extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-            SizedBox(
-                height: 110,
-                width: 110,
-                child: Image.asset("images/hexagon.png")),
             Container(
-                alignment: const Alignment(0.9, 0),
+                alignment: Alignment(
+                    index % 2 == 0 ? x_align[0] : x_align[1],
+                    (index % 4 == 0) || ((index - 1) % 4 == 0)
+                        ? y_align[0]
+                        : y_align[1]),
+                height: 130,
+                width: 400,
+                child: Image.asset(
+                  "images/hexagon.png",
+                  scale: 2.5,
+                )),
+            Container(
                 height: 100,
                 width: 340,
                 decoration: BoxDecoration(
@@ -121,22 +129,20 @@ class TileBuilder extends StatelessWidget {
                     GestureDetector(
                         onTap: () async {
                           if (File(tile.file).existsSync()) {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) =>
-                                    PlayerDialog(updater: updater, tile: tile),);
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) =>
+                                  PlayerDialog(updater: updater, tile: tile),
+                            );
                           } else {
                             await DataHandler().deleteTile(tile.name);
                             showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                const DenySheet(type: "not_found"));
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    const DenySheet(type: "not_found"));
                             updater();
                           }
-
-                          
-
                         },
                         child: Column(
                           children: [
@@ -163,9 +169,6 @@ class TileBuilder extends StatelessWidget {
                 )),
           ],
         ),
-        const SizedBox(
-          height: 10,
-        )
       ],
     );
   }
