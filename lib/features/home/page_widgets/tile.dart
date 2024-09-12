@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/etc/colors/colors.dart';
 import 'package:my_app/etc/colors/gradients/tile.dart';
+import 'package:my_app/features/home/add_menu_widgets/error_notificator.dart';
 import 'package:my_app/features/home/player_menu_widgets/dialog.dart';
+import 'package:my_app/repositories/data_handler.dart';
 //import 'package:my_app/repositories/data_handler.dart';
 import 'package:my_app/repositories/models/tile_player.dart';
 
@@ -14,6 +18,8 @@ class TileBuilder extends StatelessWidget {
       required this.index,
       required this.updater,
       required this.tile});
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -113,12 +119,24 @@ class TileBuilder extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                        onTap: () {
-                          showDialog(
+                        onTap: () async {
+                          if (File(tile.file).existsSync()) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) =>
+                                    PlayerDialog(updater: updater, tile: tile),);
+                          } else {
+                            await DataHandler().deleteTile(tile.name);
+                            showModalBottomSheet(
                               context: context,
-                              barrierDismissible: false,
                               builder: (BuildContext context) =>
-                                  PlayerDialog(updater: updater, tile: tile));
+                                const DenySheet(type: "not_found"));
+                            updater();
+                          }
+
+                          
+
                         },
                         child: Column(
                           children: [

@@ -13,6 +13,8 @@ class DenySheet extends StatelessWidget {
       return 'Не все данные заполнены';
     } else if (type.compareTo("response") == 0) {
       return 'Не удалось подключиться к серверу';
+    } else if (type.compareTo("not_found") == 0) {
+      return 'Файл был перемещен или удален';
     }
     return 'Что-то пошло не так';
   }

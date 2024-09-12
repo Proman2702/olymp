@@ -34,6 +34,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
   @override
   void initState() {
     super.initState();
+
     player.setSourceDeviceFile(widget.tile.file);
 
     player.onPlayerStateChanged.listen((state) {

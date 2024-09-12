@@ -21,7 +21,7 @@ class _AddDialogState extends State<AddDialog> {
   String? fileName;
   int? result;
   String? filePath;
-  String ip = "http://4.tcp.eu.ngrok.io:12793/upload";
+  String ip = "http://7.tcp.eu.ngrok.io:18502/upload";
 
   Future<int> get_response(BuildContext context) async {
     showDialog(
@@ -41,7 +41,7 @@ class _AddDialogState extends State<AddDialog> {
       Navigator.pop(context);
       return res;
     } on Exception catch (e) {
-      log("error ${e}");
+      log("error $e");
       Navigator.pop(context);
       return 400;
     }

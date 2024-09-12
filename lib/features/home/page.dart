@@ -1,4 +1,7 @@
 import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
+import 'dart:io';
+import "package:my_app/etc/colors/colors.dart";
 import "package:my_app/features/home/add_menu_widgets/dialog.dart";
 import "package:my_app/features/home/page_widgets/tile.dart";
 import "package:my_app/etc/colors/gradients/appbar.dart";
@@ -21,6 +24,19 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     tileUpdate();
+
+    for (int i = 0; i < tilesList.length; i++) {
+        if (!(File(tilesList[i].file).existsSync())) {
+          tileRemove(tilesList[i].name, i);
+        }
+      }
+    
+    setState(() {});
+    }
+
+  void tileRemove(String name, int index) async {
+    await DataHandler().deleteTile(name);
+    tilesList.removeAt(index);
   }
 
 // апдейт вкладок
@@ -34,9 +50,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 4,
+          elevation: 5,
           toolbarHeight: 70,
-          shadowColor: Colors.deepPurple,
+          shadowColor: Colors.black,
           leadingWidth: 20,
           flexibleSpace:
               Container(decoration: BoxDecoration(gradient: AppbarGrad())),
@@ -73,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             );
           }),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 161, 29, 201),
+        backgroundColor: Color(CustomColors.bright),
         onPressed: () {
           showDialog(
               context: context,
