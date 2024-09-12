@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(width: 10)
           ]),
       body: ListView(
-        padding: EdgeInsets.only(left: 22, right: 22, bottom: 22, top: 5),
+        padding: EdgeInsets.only(left: 22, right: 22, bottom: 22, top: 15),
         children: [
           ListView.builder(
               physics: const ScrollPhysics(),
