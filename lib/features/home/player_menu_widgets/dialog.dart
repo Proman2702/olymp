@@ -62,189 +62,203 @@ class _PlayerDialogState extends State<PlayerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding: const EdgeInsets.all(10),
-      titlePadding: const EdgeInsets.all(20),
-      backgroundColor: Color(CustomColors.dialogBack),
-      insetPadding: const EdgeInsets.all(20),
-      shadowColor: Colors.black,
-      elevation: 5,
-      title: Row(
-        // Инфа и выход
-        children: [
-          Container(
-            height: 50,
-            width: 150,
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(left: 5, right: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Color(CustomColors.main)),
-            child: SingleChildScrollView(
-              //for horizontal scrolling
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                widget.tile.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Container(
-            height: 50,
-            width: 50,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Color(CustomColors.main)),
-            child: IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => DeleteConfirmDialog(
-                            tile: widget.tile,
-                            updater: onDelete,
-                          ));
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  size: 30,
-                  color: Colors.white,
-                )),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Container(
-            height: 50,
-            width: 50,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Color(CustomColors.main)),
-            child: IconButton(
-                onPressed: () async {
-                  await player.dispose();
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(
-                  Icons.close,
-                  size: 30,
-                  color: Colors.white,
-                )),
-          )
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 100,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      children: [
+        Container(
+            alignment: Alignment(1, 0.6),
+            height: 400,
+            width: 400,
+            child: Image.asset(
+              "images/hexagon.png",
+              scale: 1.5,
+              opacity: const AlwaysStoppedAnimation(.5),
+            )),
+        AlertDialog(
+          contentPadding: const EdgeInsets.all(10),
+          titlePadding: const EdgeInsets.all(20),
+          backgroundColor: Color(CustomColors.dialogBack),
+          insetPadding: const EdgeInsets.all(20),
+          shadowColor: Colors.black,
+          elevation: 5,
+          title: Row(
+            // Инфа и выход
             children: [
               Container(
-                height: 35,
-                width: 35,
+                height: 50,
+                width: 150,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 5, right: 5),
                 decoration: BoxDecoration(
-                    color: Color(CustomColors.main),
-                    borderRadius: BorderRadius.circular(15)),
-                child: IconButton(
-                    onPressed: () async {
-                      log("Pause");
-                      await player.pause();
-                    },
-                    icon: const Icon(
-                      Icons.pause,
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color(CustomColors.main)),
+                child: SingleChildScrollView(
+                  //for horizontal scrolling
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    widget.tile.name,
+                    style: const TextStyle(
                       color: Colors.white,
-                      size: 18,
-                    )),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24.0,
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(
+                width: 12,
+              ),
               Container(
                 height: 50,
                 width: 50,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: Color(CustomColors.main),
-                    borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color(CustomColors.main)),
                 child: IconButton(
-                  onPressed: () async {
-                    log("Playing");
-                    await player.play(DeviceFileSource(widget.tile.file));
-                  },
-                  icon: const Icon(
-                    Icons.play_arrow,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                    color: Color(CustomColors.main),
-                    borderRadius: BorderRadius.circular(15)),
-                child: IconButton(
-                    onPressed: () async {
-                      log("Stopped");
-                      position = Duration.zero;
-                      await player.stop();
-                      setState(() {});
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              DeleteConfirmDialog(
+                                tile: widget.tile,
+                                updater: onDelete,
+                              ));
                     },
                     icon: const Icon(
-                      Icons.stop,
+                      Icons.delete,
+                      size: 30,
                       color: Colors.white,
-                      size: 18,
                     )),
               ),
+              const SizedBox(
+                width: 12,
+              ),
+              Container(
+                height: 50,
+                width: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color(CustomColors.main)),
+                child: IconButton(
+                    onPressed: () async {
+                      await player.dispose();
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      size: 30,
+                      color: Colors.white,
+                    )),
+              )
             ],
           ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(timeFormat(position.inSeconds),
-                  style: TextStyle(color: Color(CustomColors.main))),
-              const SizedBox(width: 200),
-              Text(timeFormat(duration.inSeconds),
-                  style: TextStyle(color: Color(CustomColors.main))),
+              SizedBox(
+                height: 100,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                        color: Color(CustomColors.main),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: IconButton(
+                        onPressed: () async {
+                          log("Pause");
+                          await player.pause();
+                        },
+                        icon: const Icon(
+                          Icons.pause,
+                          color: Colors.white,
+                          size: 18,
+                        )),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Color(CustomColors.main),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: IconButton(
+                      onPressed: () async {
+                        log("Playing");
+                        await player.play(DeviceFileSource(widget.tile.file));
+                      },
+                      icon: const Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                        color: Color(CustomColors.main),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: IconButton(
+                        onPressed: () async {
+                          log("Stopped");
+                          position = Duration.zero;
+                          await player.stop();
+                          setState(() {});
+                        },
+                        icon: const Icon(
+                          Icons.stop,
+                          color: Colors.white,
+                          size: 18,
+                        )),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(timeFormat(position.inSeconds),
+                      style: TextStyle(color: Color(CustomColors.main))),
+                  const SizedBox(width: 200),
+                  Text(timeFormat(duration.inSeconds),
+                      style: TextStyle(color: Color(CustomColors.main))),
+                ],
+              ),
+              SizedBox(height: 5),
+              SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  overlayShape: SliderComponentShape.noOverlay,
+                ),
+                child: Container(
+                    width: 260,
+                    alignment: const Alignment(0, 0),
+                    child: Slider(
+                      activeColor: Color(CustomColors.main),
+                      thumbColor: Color(CustomColors.main),
+                      inactiveColor: Color(CustomColors.shadow),
+                      min: 0,
+                      max: duration.inSeconds.toDouble() + 1,
+                      value: position.inSeconds.toDouble(),
+                      onChanged: (value) {
+                        final position = Duration(seconds: value.toInt());
+                        player.seek(position);
+                        player.resume();
+                      },
+                    )),
+              ),
+              SizedBox(height: 10),
             ],
           ),
-          SizedBox(height: 5),
-          SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              overlayShape: SliderComponentShape.noOverlay,
-            ),
-            child: Container(
-                width: 260,
-                alignment: const Alignment(0, 0),
-                child: Slider(
-                  activeColor: Color(CustomColors.main),
-                  thumbColor: Color(CustomColors.main),
-                  inactiveColor: Color(CustomColors.shadow),
-                  min: 0,
-                  max: duration.inSeconds.toDouble() + 1,
-                  value: position.inSeconds.toDouble(),
-                  onChanged: (value) {
-                    final position = Duration(seconds: value.toInt());
-                    player.seek(position);
-                    player.resume();
-                  },
-                )),
-          ),
-          SizedBox(height: 10),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
