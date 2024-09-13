@@ -21,7 +21,7 @@ class _AddDialogState extends State<AddDialog> {
   String? fileName;
   int? result;
   String? filePath;
-  String ip = "http://4.tcp.eu.ngrok.io:19915/upload";
+  String ip = "http://0.tcp.eu.ngrok.io:10964/upload";
 
   Future<int> get_response(BuildContext context) async {
     showDialog(

@@ -1,8 +1,8 @@
 class CustomColors {
   final List<int> appbarGrad = [0xffc25fda, 0xff7b289c, 
   0xff481c5e];
-  final List<int> tileGrad = [0xffE1B4D6, 
-  0xffB182B9];
+  final List<int> tileGrad = [0xffE1c4D6, 
+  0xffc192B9];
 
   static int main = 0xdd71327c;
   static int mainLight = 0xdd8f678d;
@@ -10,7 +10,7 @@ class CustomColors {
   static int bright = 0xff863e95;
   static int white = 0xffffffff;
   static int shadow = 0xffd9d9d9;
-  static int dialogBack = 0xffddc8dc;
+  static int dialogBack = 0xffefd8ec;
 
   List<int> get getAppbarGrad => appbarGrad;
   List<int> get getTileGrad => tileGrad;
