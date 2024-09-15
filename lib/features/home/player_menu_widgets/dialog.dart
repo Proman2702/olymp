@@ -5,6 +5,7 @@ import 'package:my_app/etc/colors/colors.dart';
 import 'package:my_app/features/home/player_menu_widgets/delete_confirmation.dart';
 import 'package:my_app/repositories/models/tile_player.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class PlayerDialog extends StatefulWidget {
   final Function updater;
@@ -156,9 +157,16 @@ class _PlayerDialogState extends State<PlayerDialog> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                height: 100,
-              ),
+              
+              Container(alignment: Alignment.center,height: 70, width: 200, 
+              child:
+              InkWell(
+              child: Text('Рекомендуем обратиться к материалам логопеда', textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15.6, fontWeight: FontWeight.w700, color: Color(CustomColors.mainLight), decoration: TextDecoration.underline),),
+              onTap: () => launchUrlString('https://www.youtube.com/')
+          )),
+              
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -166,7 +174,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
                     height: 35,
                     width: 35,
                     decoration: BoxDecoration(
-                        color: Color(CustomColors.main),
+                        color: Color(CustomColors.mainLight),
                         borderRadius: BorderRadius.circular(15)),
                     child: IconButton(
                         onPressed: () async {
@@ -185,7 +193,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
                     width: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Color(CustomColors.main),
+                        color: Color(CustomColors.mainLight),
                         borderRadius: BorderRadius.circular(20)),
                     child: IconButton(
                       onPressed: () async {
@@ -204,7 +212,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
                     height: 35,
                     width: 35,
                     decoration: BoxDecoration(
-                        color: Color(CustomColors.main),
+                        color: Color(CustomColors.mainLight),
                         borderRadius: BorderRadius.circular(15)),
                     child: IconButton(
                         onPressed: () async {
@@ -233,6 +241,8 @@ class _PlayerDialogState extends State<PlayerDialog> {
                 ],
               ),
               SizedBox(height: 5),
+
+              // Ползунок
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   overlayShape: SliderComponentShape.noOverlay,
