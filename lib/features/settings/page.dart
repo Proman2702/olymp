@@ -62,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           Ip.ip = value;
                         });
                       },
-                      maxLength: 16,
+                      maxLength: 50,
                       decoration: InputDecoration(
                         counterText: "",
                         labelText: "Ввод другого IP сервера",
