@@ -1,4 +1,3 @@
-// ignore: unused_import
 import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/features/home/add_menu_widgets/error_notificator.dart';
 import 'package:my_app/etc/colors/colors.dart';
 import 'package:my_app/repositories/data_handler.dart';
+import 'package:my_app/repositories/ip.dart';
 import 'package:my_app/repositories/models/tile_player.dart';
 import 'package:my_app/repositories/upload_to_server.dart';
 
@@ -21,7 +21,7 @@ class _AddDialogState extends State<AddDialog> {
   String? fileName;
   int? result;
   String? filePath;
-  String ip = "http://192.168.0.12:5000/upload";
+  String ip = Ip.ip;
 
   Future<int> get_response(BuildContext context) async {
     showDialog(
@@ -239,6 +239,11 @@ class _AddDialogState extends State<AddDialog> {
                       context: context,
                       builder: (BuildContext context) =>
                           DenySheet(type: "format"));
+                } else if (fileName!.compareTo("") == 0) {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          DenySheet(type: "none"));
                 } else if (repeated) {
                   showModalBottomSheet(
                       context: context,
@@ -259,6 +264,7 @@ class _AddDialogState extends State<AddDialog> {
                     // да
                   } else {
                     result = response;
+                    log("$result");
                     TilePlayer tile = TilePlayer(
                         name: fileName!, file: filePath!, result: result!);
 

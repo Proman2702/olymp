@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/features/home/page.dart';
 import 'package:my_app/features/settings/page.dart';
+import 'package:my_app/repositories/ip.dart';
 
 void main() {
+  Ip.ip = Ip.defaultIp;
   runApp(const App());
 }
 

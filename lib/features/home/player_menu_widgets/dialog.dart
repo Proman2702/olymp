@@ -157,15 +157,25 @@ class _PlayerDialogState extends State<PlayerDialog> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              
-              Container(alignment: Alignment.center,height: 70, width: 200, 
-              child:
-              InkWell(
-              child: Text('Рекомендуем обратиться к материалам логопеда', textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15.6, fontWeight: FontWeight.w700, color: Color(CustomColors.mainLight), decoration: TextDecoration.underline),),
-              onTap: () => launchUrlString('https://www.youtube.com/')
-          )),
-              
+              widget.tile.result == 1
+                  ? Container(
+                      alignment: Alignment.center,
+                      height: 70,
+                      width: 200,
+                      child: InkWell(
+                          child: Text(
+                            'Рекомендуем обратиться к материалам логопеда',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 15.6,
+                                fontWeight: FontWeight.w700,
+                                color: Color(CustomColors.mainLight),
+                                decoration: TextDecoration.underline),
+                          ),
+                          onTap: () => launchUrlString(
+                              'https://www.youtube.com/watch?v=8pA-rkKhaRc')))
+                  : SizedBox(height: 70),
+
               SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +274,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
                       },
                     )),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
             ],
           ),
         ),

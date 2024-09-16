@@ -1,36 +1,31 @@
 from flask import Flask, jsonify, request
 import os
-import catboost 
-import librosa
+
+
+import transformers
 import numpy as np
+import torch
+import soundfile as sf
+from transformers import HubertForSequenceClassification, Wav2Vec2Processor
 
 app = Flask(__name__)
 
 
-model = catboost.CatBoostClassifier()
-model.load_model('C:\\Users\\Pavel\\Desktop\\app\\my_app\\olymp\\server\\cat2.cbm')
+model = HubertForSequenceClassification.from_pretrained("model.safetensors", local_files_only=True, config="config.json")
+
+
+processor = Wav2Vec2Processor.from_pretrained('jonatasgrosman/wav2vec2-xls-r-1b-russian')
+
 
 @app.route('/predict', methods=['POST'])
-def predict(path):
-    sr=16000
-    y, sr = librosa.load(path, sr=sr)
+def predict(audio):
     
-    mfccs = librosa.feature.mfcc(y=y, sr=sr)
-    mfccs_mean = np.mean(mfccs.T, axis=0)
-
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr)
-    tempo, _ = librosa.beat.beat_track(onset_envelope=onset_env, sr=sr)
-
-    rms = librosa.feature.rms(y=y)
-    rms_mean = np.mean(rms.T, axis=0)
-
-    feature=np.hstack([mfccs_mean, 
-                       tempo,
-                       rms_mean
-                       ])
+    inputs = processor(sf.read(audio)[0], return_tensors="pt", padding=False)
+    with torch.no_grad():
+        logits = model(**inputs.to("cpu")).logits
+    predicted_ids = torch.argmax(logits, dim=-1)
     
-    prediction = model.predict(feature)
-    return jsonify({'prediction': prediction.tolist()})
+    return jsonify({'prediction': predicted_ids.tolist()})
 
 
 
