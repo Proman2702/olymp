@@ -32,8 +32,17 @@ def predict(audio):
 UPLOAD_FOLDER = 'uploads/'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
+
 @app.route('/upload', methods=['POST'])
 def upload_audio():
+
+    all_files = os.listdir(UPLOAD_FOLDER)
+
+    for f in all_files:
+        os.remove(f"{UPLOAD_FOLDER}/{f}")
+
+
     if 'audio' not in request.files:
         return 'No file part', 400
 
@@ -46,12 +55,18 @@ def upload_audio():
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
     print("<server> uploaded")
+    try:
+        prediction = predict(file_path)
+        print("<server> predicted")
 
-    prediction = predict(file_path)
-    print("<server> predicted")
-    file_path = os.remove(file_path)
-    # Здесь можно добавить обработку аудиофайла
-    return prediction, 200
+    except:
+        print("<server> connection closed")
+        
+    
+    finally:
+        file_path = os.remove(file_path)
+        return prediction, 200
+
 
 if __name__ == '__main__':
     app.run(debug=True)

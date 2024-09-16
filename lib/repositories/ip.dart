@@ -3,5 +3,5 @@ class Ip {
       ""; // буфер (изменяется в настройках и используется всегда)
 
   static String defaultIp =
-      "http://2.tcp.eu.ngrok.io:17329/upload"; // Дефолт айпи
+      "http://4.tcp.eu.ngrok.io:16558/upload"; // Дефолт айпи
 }
